@@ -1,5 +1,6 @@
 import { PRODUCTS, CURRENT_VENDOR_SHOP_ID } from "@/lib/mock-data";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import StockTable from "@/components/vendeur/stock-table";
 import type { Product } from "@/lib/types";
 

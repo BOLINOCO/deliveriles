@@ -1,7 +1,8 @@
 import KpiCard from "@/components/vendeur/kpi-card";
 import StatsBars from "@/components/vendeur/stats-bars";
 import PremiumBanner from "@/components/livreur/premium-banner";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 

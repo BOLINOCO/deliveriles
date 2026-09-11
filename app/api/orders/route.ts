@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getSupabaseServerClient } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { cartSizeFromQuantity } from "@/lib/delivery-pricing";
 
 type IncomingItem = { productId?: unknown; quantity?: unknown };

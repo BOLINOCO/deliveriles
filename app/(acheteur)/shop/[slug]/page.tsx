@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { SHOPS, PRODUCTS } from "@/lib/mock-data";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import ProductList from "@/components/acheteur/product-list";
 import type { Product } from "@/lib/types";
 

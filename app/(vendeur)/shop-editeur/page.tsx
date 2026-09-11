@@ -1,5 +1,6 @@
 import { SHOPS, CURRENT_VENDOR_SHOP_ID } from "@/lib/mock-data";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import ShopEditorForm from "@/components/vendeur/shop-editor-form";
 import type { Shop } from "@/lib/types";
 

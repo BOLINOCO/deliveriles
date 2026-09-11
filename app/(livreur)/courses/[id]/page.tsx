@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { getCourseById, getCourseShop, getCourseEarnings, type Course } from "@/lib/livreur-mock";
-import { getSupabaseServerClient } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 import LiveMap from "@/components/acheteur/live-map";
 import MarkAsDeliveredButton from "@/components/livreur/mark-delivered-button";
 
@@ -35,7 +35,9 @@ async function fetchRealCourse(id: string): Promise<CourseDetail | null> {
 
   if (!delivery) return null;
 
-  const order = delivery.orders as {
+  // Sans types générés, supabase-js infère la relation comme un tableau :
+  // on passe par `unknown` pour affirmé la vraie forme (objet joint unique).
+  const order = delivery.orders as unknown as {
     delivery_address: string;
     distance_km: number;
     cart_size: string;

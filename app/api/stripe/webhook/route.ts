@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { getSupabaseAdminClient } from "@/lib/supabase";
+import { getSupabaseAdminClient } from "@/lib/supabase/admin";
 
 /**
  * Webhook Stripe — serveur uniquement.
@@ -61,8 +61,12 @@ export async function POST(req: NextRequest) {
       // Récupère current_period_end depuis l'abonnement Stripe.
       let periodEnd: string | null = null;
       try {
-        const sub = await stripe.subscriptions.retrieve(subscriptionId);
-        periodEnd = new Date(sub.current_period_end * 1000).toISOString();
+        const sub = (await stripe.subscriptions.retrieve(
+          subscriptionId
+        )) as unknown as { current_period_end?: number };
+        if (sub.current_period_end) {
+          periodEnd = new Date(sub.current_period_end * 1000).toISOString();
+        }
       } catch (err) {
         console.error("retrieve subscription échoué:", err);
       }
@@ -87,13 +91,21 @@ export async function POST(req: NextRequest) {
 
     case "customer.subscription.updated":
     case "customer.subscription.deleted": {
-      const subscription = event.data.object as Stripe.Subscription;
+      const subscription = event.data.object as unknown as Stripe.Subscription & {
+        current_period_end?: number;
+      };
 
       const { error } = await supabase
         .from("subscriptions")
         .update({
           status: subscription.status, // active | past_due | canceled | unpaid…
-          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+          ...(subscription.current_period_end
+            ? {
+                current_period_end: new Date(
+                  subscription.current_period_end * 1000
+                ).toISOString(),
+              }
+            : {}),
         })
         .eq("stripe_subscription_id", subscription.id);
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getSupabaseServerClient } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 import {
   calculateDeliveryFee,
   getCurrentConditions,
@@ -43,7 +43,7 @@ export async function GET() {
   }
 
   const courses = (deliveries ?? []).map((row) => {
-    const order = row.orders as {
+    const order = row.orders as unknown as {
       delivery_address: string;
       distance_km: number;
       cart_size: string;

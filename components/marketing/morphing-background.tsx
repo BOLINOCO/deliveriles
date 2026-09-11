@@ -107,7 +107,7 @@ export default function MorphingBackground() {
             <path
               className="morph-path"
               d={EVERYDAY_OBJECTS[0]}
-              fill={`url(#grad${s.gradient === "dark" ? "Dark" : s.gradient === "green" ? "Green" : "Gray"})`}
+              fill={`url(#grad${s.gradient === "navy" ? "Dark" : s.gradient === "blue" ? "Green" : "Gray"})`}
             />
           </svg>
         </div>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-import { getSupabaseServerClient } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 // Deux plans possibles : abonnement Vendeur (25€/mois, 0% commission produit)
 // et abonnement Livreur Premium (10€/mois, priorité sur les courses).

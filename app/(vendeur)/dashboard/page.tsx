@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PRODUCTS, CURRENT_VENDOR_SHOP_ID, SHOPS } from "@/lib/mock-data";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import KpiCard from "@/components/vendeur/kpi-card";
 import SubscribeButton from "@/components/stripe/subscribe-button";
 
