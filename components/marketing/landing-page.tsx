@@ -118,7 +118,7 @@ function SiteNav() {
         </a>
         <nav className="hidden items-center gap-8 text-sm font-semibold text-neutral-500 md:flex">
           <a href="#profiles" className="transition-colors hover:text-brand-navy">Les 3 profils</a>
-          <a href="#ai" className="transition-colors hover:text-brand-navy">Assistant IA</a>
+          <a href="#ai" className="transition-colors hover:text-brand-navy">Ti'bot</a>
           <a href="/connexion" className="transition-colors hover:text-brand-navy">Se connecter</a>
           <a href="#pwa" className="transition-colors hover:text-brand-navy">Installer l&apos;app</a>
         </nav>
@@ -147,7 +147,7 @@ function Hero() {
             <em className="not-italic text-brand-blue">Chez nous vous pouvez.</em>
           </h1>
           <p className="mt-5 max-w-[460px] text-lg text-neutral-500">
-            Tous vos commerçants de quartier réunis dans une seule appli. Un assistant IA prépare votre
+            Tous vos commerçants de quartier réunis dans une seule appli. Ti'bot, notre assistant IA, prépare votre
             commande, vous n&apos;avez plus qu&apos;à valider — et vous suivez votre livreur en temps réel.
           </p>
 
@@ -621,10 +621,8 @@ function AIPreviewPhone() {
         </div>
         <div className="max-w-[86%] self-start rounded-2xl rounded-bl-md border border-neutral-200 bg-neutral-50 px-3.5 py-3 text-[0.82rem] leading-snug text-brand-navy">
           <span className="mb-1.5 flex items-center gap-1.5 text-[0.68rem] font-bold text-brand-blue">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-3 w-3">
-              <path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4L12 3z" />
-            </svg>
-            Assistant Deliver&apos;îles
+            <Image src="/logos/logo-tibot.png" alt="" width={14} height={14} className="h-3.5 w-3.5 object-contain" />
+            Ti&apos;bot
           </span>
           2 croissants, 1 pain au chocolat, 1 café allongé — Le Fournil. Livraison estimée 7h45. Total avec
           livraison et frais : <strong>{formatEUR(AI_EXAMPLE_ORDER.total)}</strong>.
@@ -648,7 +646,7 @@ function AISection() {
             Dites ce qu&apos;il vous faut. L&apos;IA prépare tout.
           </h2>
           <p className="mt-3.5 max-w-lg text-[1.05rem] text-neutral-500">
-            L&apos;assistant intégré compose votre commande complète — produits, shop, créneau de livraison —
+            Ti'bot compose votre commande complète — produits, shop, créneau de livraison —
             à partir d&apos;une simple phrase. Il ne vous reste plus qu&apos;à valider.
           </p>
           <div className="mt-7 flex flex-col gap-3.5">
@@ -718,10 +716,8 @@ function AppCorePreviewPhone() {
         </div>
 
         <div className="relative mt-auto flex items-center justify-around border-t border-neutral-200 pt-3.5">
-          <div className="absolute -top-[26px] left-1/2 flex h-[52px] w-[52px] -translate-x-1/2 items-center justify-center rounded-full bg-brand-orange shadow-[0_10px_22px_rgba(249,115,22,0.4),0_0_0_5px_#fff]">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-white">
-              <path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4L12 3z" />
-            </svg>
+          <div className="absolute -top-[26px] left-1/2 h-[52px] w-[52px] -translate-x-1/2">
+            <Image src="/logos/logo-tibot.png" alt="Ti'bot" width={52} height={52} className="h-[52px] w-[52px] object-contain drop-shadow-[0_10px_16px_rgba(15,23,42,0.28)]" />
           </div>
           <div className="flex flex-col items-center gap-1 text-brand-navy">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px]">
@@ -773,7 +769,7 @@ function CoreAppSection() {
           </h2>
           <p className="mt-3.5 max-w-lg text-[1.05rem] text-neutral-500">
             La barre de recherche trouve n&apos;importe quel shop en un instant, le panier reste toujours
-            visible en un coup d&apos;œil, et le bouton IA flotte en permanence en bas de l&apos;écran.
+            visible en un coup d&apos;œil, et Ti'bot flotte en permanence en bas de l&apos;écran.
           </p>
           <div className="mt-7 flex flex-col gap-3.5">
             {[
@@ -901,7 +897,7 @@ function Footer() {
           <div>
             <h4 className="mb-4 text-[0.8rem] font-bold uppercase tracking-wide text-neutral-500">Produit</h4>
             <a href="#profiles" className="block py-1.5 text-[0.88rem] text-neutral-300 transition-colors hover:text-white">Les 3 profils</a>
-            <a href="#ai" className="block py-1.5 text-[0.88rem] text-neutral-300 transition-colors hover:text-white">Assistant IA</a>
+            <a href="#ai" className="block py-1.5 text-[0.88rem] text-neutral-300 transition-colors hover:text-white">Ti'bot</a>
             <a href="#pwa" className="block py-1.5 text-[0.88rem] text-neutral-300 transition-colors hover:text-white">Installer l&apos;app</a>
           </div>
           <div>

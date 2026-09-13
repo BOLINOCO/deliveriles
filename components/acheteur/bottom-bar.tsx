@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
@@ -18,10 +19,15 @@ export default function BottomBar() {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-neutral-200 bg-white/95 px-6 pb-[max(10px,env(safe-area-inset-bottom))] pt-3 backdrop-blur">
       <div className="relative mx-auto flex max-w-md items-center justify-around">
-        <Link href="/assistant" aria-label="Assistant IA" className="absolute left-1/2 top-[-30px] flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full bg-brand-orange shadow-[0_10px_22px_rgba(249,115,22,0.4),0_0_0_5px_#fff]">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white">
-            <path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4L12 3z" />
-          </svg>
+        <Link href="/assistant" aria-label="Ti'bot — Assistant IA" className="absolute left-1/2 top-[-30px] flex h-14 w-14 -translate-x-1/2 items-center justify-center rounded-full shadow-[0_10px_22px_rgba(249,115,22,0.35),0_0_0_5px_#fff]">
+          <Image
+            src="/logos/logo-tibot.png"
+            alt=""
+            width={56}
+            height={56}
+            priority
+            className="h-14 w-14 object-contain"
+          />
         </Link>
 
         <Link href="/accueil">
