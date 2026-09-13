@@ -107,7 +107,7 @@ function SiteNav() {
       <div className="mx-auto flex max-w-[1160px] items-center justify-between gap-6 px-6">
         <a href="#top" className="flex items-center gap-2 font-display text-lg font-extrabold text-brand-navy">
           <Image
-            src="/logos/logo-secondaire.png"
+            src="/logos/logo-principal.png"
             alt="Logo Deliver'îles"
             width={32}
             height={32}
@@ -886,7 +886,7 @@ function Footer() {
           <div>
             <a href="#top" className="flex items-center gap-2 font-display text-lg font-extrabold text-white">
               <Image
-                src="/logos/logo-secondaire.png"
+                src="/logos/logo-principal.png"
                 alt="Logo Deliver'îles"
                 width={28}
                 height={28}

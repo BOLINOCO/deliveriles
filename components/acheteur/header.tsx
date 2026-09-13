@@ -28,7 +28,7 @@ export default function Header() {
         className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl"
       >
         <Image
-          src="/logos/logo-secondaire.png"
+          src="/logos/logo-principal.png"
           alt="Deliver'îles"
           width={32}
           height={32}
