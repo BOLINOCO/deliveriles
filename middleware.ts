@@ -40,6 +40,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Supabase JS n'est pas compatible Edge Runtime (référence process.version
+  // au top-level → MIDDLEWARE_INVOCATION_FAILED sur Vercel) : on force le
+  // runtime Node.js, stable pour le middleware depuis Next 15.5.
+  runtime: "nodejs",
   matcher: [
     // Tout sauf les assets statiques.
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
