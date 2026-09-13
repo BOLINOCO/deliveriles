@@ -430,19 +430,27 @@ function SignupSection() {
 
 /* ============================================================
    SOCIAL PROOF MARQUEE
+   Partenaires chargés depuis la table SQL `partners` (supabase/migrations/0003_partners.sql)
+   et passés en prop par app/page.tsx. Fallback statique en mode démo.
    ============================================================ */
-const SHOPS = [
-  { name: "Le Fournil", cat: "Boulangerie", color: "#0F172A" },
-  { name: "Marché Vert", cat: "Primeur", color: "#0EA5E9" },
-  { name: "Café Lucie", cat: "Café", color: "#F97316" },
-  { name: "Boucherie Martin", cat: "Boucherie", color: "#0F172A" },
-  { name: "Fleuriste Iris", cat: "Fleuriste", color: "#0EA5E9" },
-  { name: "La Mercerie", cat: "Loisirs créatifs", color: "#F97316" },
-  { name: "Épicerie Bio", cat: "Épicerie", color: "#0F172A" },
-  { name: "Poisson d\u2019Avril", cat: "Poissonnerie", color: "#0EA5E9" },
+export type Partner = {
+  name: string;
+  category: string;
+  color: string;
+};
+
+const SHOPS: Partner[] = [
+  { name: "Le Fournil", category: "Boulangerie", color: "#0F172A" },
+  { name: "Marché Vert", category: "Primeur", color: "#0EA5E9" },
+  { name: "Café Lucie", category: "Café", color: "#F97316" },
+  { name: "Boucherie Martin", category: "Boucherie", color: "#0F172A" },
+  { name: "Fleuriste Iris", category: "Fleuriste", color: "#0EA5E9" },
+  { name: "La Mercerie", category: "Loisirs créatifs", color: "#F97316" },
+  { name: "Épicerie Bio", category: "Épicerie", color: "#0F172A" },
+  { name: "Poisson d'Avril", category: "Poissonnerie", color: "#0EA5E9" },
 ];
 
-function ShopBadge({ name, cat, color }: { name: string; cat: string; color: string }) {
+function ShopBadge({ name, category, color }: Partner) {
   const initials = name.split(" ").map((w) => w[0]).slice(0, 2).join("");
   return (
     <div className="flex flex-shrink-0 items-center gap-2.5 rounded-full border border-neutral-200 bg-white py-2 pl-2 pr-4.5">
@@ -453,14 +461,15 @@ function ShopBadge({ name, cat, color }: { name: string; cat: string; color: str
         {initials}
       </span>
       <span className="whitespace-nowrap text-[0.86rem] font-semibold text-neutral-500">
-        {name} · {cat}
+        {name} · {category}
       </span>
     </div>
   );
 }
 
-function SocialProof() {
-  const track = [...SHOPS, ...SHOPS];
+function SocialProof({ partners }: { partners?: Partner[] }) {
+  const shops = partners && partners.length > 0 ? partners : SHOPS;
+  const track = [...shops, ...shops];
   return (
     <section className="py-12">
       <p className="mb-6 text-center text-[0.95rem] text-neutral-500">
@@ -920,7 +929,7 @@ function Footer() {
 /* ============================================================
    PAGE
    ============================================================ */
-export default function LandingPage() {
+export default function LandingPage({ partners }: { partners?: Partner[] }) {
   return (
     <div className="bg-white font-sans text-brand-navy">
       <SiteNav />
@@ -928,7 +937,7 @@ export default function LandingPage() {
       <CategoryStrip />
       <PricingSection />
       <SignupSection />
-      <SocialProof />
+      <SocialProof partners={partners} />
       <ProfilesSection />
       <AISection />
       <CoreAppSection />
