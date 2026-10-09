@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { SHOPS, PRODUCTS } from "@/lib/mock-data";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase";
+import { SHOPS as DEMO_SHOPS, PRODUCTS as DEMO_PRODUCTS } from "@/lib/mock-data";
 import { computeOrderTotal } from "@/lib/pricing";
-import type { ComposedOrder } from "@/lib/types";
+import type { ComposedOrder, Product, Shop } from "@/lib/types";
 
 const COMPOSER_TOOL = {
   name: "composer_panier",
@@ -58,15 +60,60 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Le champ 'message' est requis." }, { status: 400 });
   }
 
-  const catalog = SHOPS.map((shop) => ({
+  // Catalogue : base SQL quand Supabase est configuré, mock sinon.
+  let shops: Shop[] = DEMO_SHOPS;
+  let products: Product[] = DEMO_PRODUCTS;
+
+  if (isSupabaseConfigured()) {
+    const supabase = await getSupabaseServerClient();
+    if (supabase) {
+      const [{ data: dbShops }, { data: dbProducts }] = await Promise.all([
+        supabase
+          .from("shops")
+          .select("id, slug, name, category, description, color, rating, distance_km"),
+        supabase.from("products").select("id, shop_id, name, price, unit, stock"),
+      ]);
+
+      if ((dbShops ?? []).length > 0) {
+        shops = (dbShops ?? []).map((s) => ({
+          id: s.id,
+          slug: s.slug,
+          name: s.name,
+          category: s.category,
+          rating: Number(s.rating),
+          color: s.color,
+          distanceKm: Number(s.distance_km ?? 0),
+          description: s.description ?? undefined,
+        }));
+      }
+      if ((dbProducts ?? []).length > 0) {
+        products = (dbProducts ?? []).map((p) => ({
+          id: p.id,
+          shopId: p.shop_id,
+          name: p.name,
+          price: Number(p.price),
+          unit: p.unit ?? undefined,
+          stock: Number(p.stock),
+        }));
+      }
+    }
+  }
+
+  const catalog = shops.map((shop) => ({
     slug: shop.slug,
     name: shop.name,
-    products: PRODUCTS.filter((p) => p.shopId === shop.id).map((p) => ({
-      id: p.id,
-      name: p.name,
-      price: p.price,
-      unit: p.unit,
-    })),
+    products: products
+      .filter(
+        (p) =>
+          p.shopId === shop.id &&
+          p.stock > 0 // seuls les produits réellement en stock sont proposables
+      )
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        unit: p.unit,
+      })),
   }));
 
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -99,14 +146,14 @@ export async function POST(req: NextRequest) {
     creneau_livraison?: string;
   };
 
-  const shop = SHOPS.find((s) => s.slug === input.shop_slug);
+  const shop = shops.find((s) => s.slug === input.shop_slug);
   if (!shop) {
     return NextResponse.json({ error: `Shop introuvable dans le catalogue : ${input.shop_slug}` }, { status: 422 });
   }
 
   const items = input.items
     .map((item) => {
-      const product = PRODUCTS.find((p) => p.id === item.product_id && p.shopId === shop.id);
+      const product = products.find((p) => p.id === item.product_id && p.shopId === shop.id);
       if (!product || item.quantite <= 0) return null;
       return {
         productId: product.id,

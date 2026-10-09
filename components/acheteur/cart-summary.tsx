@@ -1,14 +1,38 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "./cart-context";
 import { computeOrderTotal } from "@/lib/pricing";
-import { SHOPS } from "@/lib/mock-data";
+import { SHOPS as DEMO_SHOPS } from "@/lib/mock-data";
+import type { Shop } from "@/lib/types";
 import PlaceOrderButton from "./place-order-button";
 
 export default function CartSummary() {
   const { items, updateQuantity, removeItem, subtotal } = useCart();
   const router = useRouter();
+
+  // Boutiques réelles (distance_km de la base) ; fallback : démo.
+  const [shops, setShops] = useState<Shop[]>(DEMO_SHOPS);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await fetch("/api/shops");
+        if (res.status === 503 || !res.ok) return;
+        const data = (await res.json()) as { shops?: Shop[] };
+        if (!cancelled && data.shops && data.shops.length > 0) setShops(data.shops);
+      } catch {
+        // réseau indisponible → fallback démo
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   if (items.length === 0) {
     return (
@@ -25,7 +49,7 @@ export default function CartSummary() {
     );
   }
 
-  const shop = SHOPS.find((s) => s.id === items[0].product.shopId);
+  const shop = shops.find((s) => s.id === items[0].product.shopId);
   const totalQuantity = items.reduce((sum, i) => sum + i.quantity, 0);
   const { delivery, commission, total } = computeOrderTotal(subtotal, shop?.distanceKm ?? 2, totalQuantity);
 
